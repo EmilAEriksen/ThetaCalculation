@@ -1,0 +1,26 @@
+% Konstanter
+m = 30000; % Mass of vibrating component
+k_avg = 5; % averrage wind speed over last sampling period
+A = 40000; % weight of the parallel force component related to the damping coefficeint p
+B = 160000; % weight of the perpendicular force component related to the damping coefficeint p
+l = 10; % Spring constant
+
+% Values for omega and G
+omega = linspace(0, 1, 100);
+G = linspace(0.1, 8, 100);
+[omega, G] = meshgrid(omega, G);
+
+% Calculate theta for every combination of omega and G
+theta = pi - acos((A*G.^2.*sin(omega).*omega.*cos(omega)+m*G.*omega.^2.*sin(omega)-l*G.*sin(omega)+k_avg)./(B*G.*cos(omega)));
+
+% Plot
+figure
+surf(omega/2*pi, G, rad2deg(real(theta)))
+title('\theta(\omega,G)')
+ylim([0,8]);
+xlim([0, 1]);
+xlabel('\omega [Hz]')
+ylabel('G [m]')
+zlabel('\theta [deg]')
+zlim([89, 150]);
+%print -djpeg -r300 'Parameter.jpg'
