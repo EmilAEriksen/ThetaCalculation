@@ -1,0 +1,24 @@
+% Define constants
+m = 1;      % mMss
+P = 0.3;    % Damping coefficient
+k = 1;      % Spring Constants
+f = 1;      % Amplitude of displacement
+omega = 1;  % Angular frequency of displacement
+
+% Define functions
+C1 = 1;     % Constant for homogeneous solution (determine from initial conditions)
+C2 = 0.1;   % Constant for homogeneous solution (determine from initial conditions)
+zeta = P/(2*m); % Damping factor
+x_f = @(t) exp(-zeta*t).*(C1 + t*C2); % Homogeneous solution
+x_p = @(t) (f/k)*sin(omega*t); % Partikular solution
+x = @(t) x_f(t) + x_p(t); % Generel solution
+
+% Defining time vector
+t = linspace(0,40,1000); 
+
+% Plot the damped solution over time
+figure;
+plot(t, x_p(t).*exp(-zeta*t), 'LineWidth', 2, 'Color', 'blue');
+xlabel('Time [s]');
+ylabel('Position [m]');
+title('Damped displacement');
